@@ -1,18 +1,18 @@
-<?php
-session_start();
-?>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Проект - Адаптивный сайт</title>
+    <title>Мастер-класс по веб-разработке</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Подключаем Montserrat -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<!-- Передаём данные авторизации в JavaScript через data-атрибуты -->
+<!-- Передаём данные авторизации в JavaScript -->
 <body data-logged-in="<?= isset($_SESSION['login']) ? 'true' : 'false' ?>" data-user-id="<?= $_SESSION['uid'] ?? '' ?>">
     <!-- Шапка с видео -->
     <header class="header">
@@ -25,21 +25,20 @@ session_start();
         <nav class="navbar">
             <div class="container">
                 <div class="nav-wrapper">
-                    <a href="#" class="logo">Логотип</a>
+                    <a href="#" class="logo">WebMaster</a>
                     
                     <ul class="desktop-menu">
-                        <li><a href="#">Главная</a></li>
+                        <li><a href="#about">О мастер-классе</a></li>
                         <li class="has-dropdown">
-                            <a href="#">Услуги ▾</a>
+                            <a href="#">Программа ▾</a>
                             <ul class="dropdown">
-                                <li><a href="#">Веб-разработка</a></li>
-                                <li><a href="#">Дизайн</a></li>
-                                <li><a href="#">Маркетинг</a></li>
+                                <li><a href="#module1">HTML/CSS</a></li>
+                                <li><a href="#module2">JavaScript</a></li>
+                                <li><a href="#module3">Адаптивность</a></li>
                             </ul>
                         </li>
-                        <li><a href="#">О нас</a></li>
-                        <li><a href="#">Портфолио</a></li>
-                        <li><a href="#">Контакты</a></li>
+                        <li><a href="#benefits">Преимущества</a></li>
+                        <li><a href="#registration">Регистрация</a></li>
                     </ul>
                     
                     <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Открыть меню">
@@ -50,147 +49,342 @@ session_start();
                 </div>
                 
                 <ul class="mobile-menu" id="mobile-menu">
-                    <li><a href="#">Главная</a></li>
+                    <li><a href="#about">О мастер-классе</a></li>
                     <li class="mobile-dropdown">
-                        <a href="#" class="dropdown-toggle">Услуги ▾</a>
+                        <a href="#" class="dropdown-toggle">Программа ▾</a>
                         <ul class="mobile-dropdown-menu">
-                            <li><a href="#">Веб-разработка</a></li>
-                            <li><a href="#">Дизайн</a></li>
-                            <li><a href="#">Маркетинг</a></li>
+                            <li><a href="#module1">HTML/CSS</a></li>
+                            <li><a href="#module2">JavaScript</a></li>
+                            <li><a href="#module3">Адаптивность</a></li>
                         </ul>
                     </li>
-                    <li><a href="#">О нас</a></li>
-                    <li><a href="#">Портфолио</a></li>
-                    <li><a href="#">Контакты</a></li>
+                    <li><a href="#benefits">Преимущества</a></li>
+                    <li><a href="#registration">Регистрация</a></li>
                 </ul>
             </div>
         </nav>
         
         <div class="header-content">
-            <h1>Заголовок сайта</h1>
-            <p>Описание сайта или слоган компании</p>
-            <a href="#form" class="btn">Связаться</a>
+            <h1 class="header-main-title">Мастер-класс по веб-разработке</h1>
+            <p class="header-subtitle">Научитесь создавать адаптивные сайты с нуля за 4 часа</p>
+            
+            <div class="workshop-details">
+                <p class="date"><i class="far fa-calendar-alt"></i> 10 июня 2026</p>
+                <p class="time"><i class="far fa-clock"></i> 19:00-23:00</p>
+                <p class="format"><i class="fas fa-video"></i> Онлайн-формат</p>
+            </div>
+            
+            <div class="price-tag-free">
+                <span class="free-badge-large">Бесплатное участие</span>
+                <p class="free-description">Мастер-класс проводится для начинающих разработчиков</p>
+            </div>
+            
+            <a href="#registration" class="btn">Оставить заявку</a>
         </div>
     </header>
 
-    <!-- Слайдер -->
-    <section class="slider-section">
+    <!-- Статус авторизации -->
+    <?php if (isset($_SESSION['login'])): ?>
+    <div class="auth-status" style="background: #d4edda; padding: 15px; text-align: center; margin: 0 auto; max-width: 1200px;">
+        ✅ Вы вошли как: <strong><?= htmlspecialchars($_SESSION['login']) ?></strong>
+        <a href="logout.php" style="margin-left: 15px; color: #c0392b;">Выйти</a>
+    </div>
+    <?php else: ?>
+    <div class="auth-status" style="background: #e7f3ff; padding: 15px; text-align: center; margin: 0 auto; max-width: 1200px;">
+        🔐 <a href="login.php">Войти</a> для изменения ранее отправленных данных
+    </div>
+    <?php endif; ?>
+
+    <!-- О мастер-классе -->
+    <section class="about-section" id="about">
         <div class="container">
-            <h2>Наши работы</h2>
-            <div class="slider">
-                <div class="slider-wrapper">
-                    <div class="slide active">
-                        <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Проект 1">
-                        <div class="slide-text">
-                            <h3>Проект 1</h3>
-                            <p>Описание проекта 1</p>
-                        </div>
+            <h2>О мастер-классе</h2>
+            <div class="about-content">
+                <p class="intro-text">Практический мастер-класс для тех, кто хочет освоить основы веб-разработки и создать свой первый адаптивный сайт. Подойдет как начинающим, так и тем, кто хочет систематизировать знания.</p>
+                
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-number">4</div>
+                        <div class="stat-text">часа практики</div>
                     </div>
-                    <div class="slide">
-                        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Проект 2">
-                        <div class="slide-text">
-                            <h3>Проект 2</h3>
-                            <p>Описание проекта 2</p>
-                        </div>
+                    <div class="stat-item">
+                        <div class="stat-number">3</div>
+                        <div class="stat-text">практических модуля</div>
                     </div>
-                    <div class="slide">
-                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Проект 3">
-                        <div class="slide-text">
-                            <h3>Проект 3</h3>
-                            <p>Описание проекта 3</p>
-                        </div>
+                    <div class="stat-item">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-text">практики</div>
                     </div>
-                </div>
-                <button class="slider-prev" aria-label="Предыдущий слайд">‹</button>
-                <button class="slider-next" aria-label="Следующий слайд">›</button>
-                <div class="slider-dots">
-                    <button class="dot active" aria-label="Слайд 1"></button>
-                    <button class="dot" aria-label="Слайд 2"></button>
-                    <button class="dot" aria-label="Слайд 3"></button>
+                    <div class="stat-item">
+                        <div class="stat-number">1</div>
+                        <div class="stat-text">готовый проект</div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Форма -->
-    <section class="form-section" id="form">
+    <!-- Слайдер с программой -->
+    <section class="slider-section">
         <div class="container">
-            <h2>Свяжитесь с нами</h2>
-            
-            <!-- Статус авторизации -->
-            <?php if (isset($_SESSION['login'])): ?>
-                <div class="auth-status" style="background: #d4edda; padding: 10px; border-radius: 5px; margin-bottom: 20px; text-align: center;">
-                    ✅ Вы вошли как: <strong><?= htmlspecialchars($_SESSION['login']) ?></strong>
-                    <a href="logout.php" style="margin-left: 15px; color: #c0392b;">Выйти</a>
-                </div>
-            <?php else: ?>
-                <div class="auth-status" style="background: #e7f3ff; padding: 10px; border-radius: 5px; margin-bottom: 20px; text-align: center;">
-                    🔐 <a href="login.php">Войти</a> для изменения ранее отправленных данных
-                </div>
-            <?php endif; ?>
-            
-            <form id="contact-form">
-                <div class="form-group">
-                    <label for="full_name">ФИО *</label>
-                    <input type="text" id="full_name" name="full_name" required placeholder="Иванов Иван Иванович">
-                </div>
-                <div class="form-group">
-                    <label for="phone">Телефон *</label>
-                    <input type="tel" id="phone" name="phone" required placeholder="+7 (999) 123-45-67">
-                </div>
-                <div class="form-group">
-                    <label for="email">Email *</label>
-                    <input type="email" id="email" name="email" required placeholder="example@mail.ru">
-                </div>
-                <div class="form-group">
-                    <label for="birth_date">Дата рождения *</label>
-                    <input type="date" id="birth_date" name="birth_date" required>
-                </div>
-                <div class="form-group">
-                    <label>Пол *</label>
-                    <div style="display: flex; gap: 20px;">
-                        <label><input type="radio" name="gender" value="male" required> Мужской</label>
-                        <label><input type="radio" name="gender" value="female"> Женский</label>
+            <h2>Программа мастер-класса</h2>
+            <div class="slider">
+                <div class="slider-wrapper">
+                    <!-- Модуль 1 -->
+                    <div class="slide active" id="module1">
+                        <div class="slide-content">
+                            <div class="module-number">Модуль 1</div>
+                            <h3>HTML5 и CSS3: основы верстки</h3>
+                            <ul class="module-list">
+                                <li><i class="fas fa-check"></i> Семантическая разметка</li>
+                                <li><i class="fas fa-check"></i> Flexbox и Grid системы</li>
+                                <li><i class="fas fa-check"></i> CSS-переменные и кастомные свойства</li>
+                                <li><i class="fas fa-check"></i> Подключение шрифтов и иконок</li>
+                                <li><i class="fas fa-check"></i> Основы responsive design</li>
+                            </ul>
+                            <div class="module-duration">
+                                <i class="far fa-clock"></i> Длительность: 1 час 20 минут
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Модуль 2 -->
+                    <div class="slide" id="module2">
+                        <div class="slide-content">
+                            <div class="module-number">Модуль 2</div>
+                            <h3>JavaScript для интерактивности</h3>
+                            <ul class="module-list">
+                                <li><i class="fas fa-check"></i> Основы DOM-манипуляций</li>
+                                <li><i class="fas fa-check"></i> Обработка событий</li>
+                                <li><i class="fas fa-check"></i> Валидация форм на JavaScript</li>
+                                <li><i class="fas fa-check"></i> Создание слайдера с нуля</li>
+                                <li><i class="fas fa-check"></i> Работа с Fetch API</li>
+                            </ul>
+                            <div class="module-duration">
+                                <i class="far fa-clock"></i> Длительность: 1 час 30 минут
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Модуль 3 -->
+                    <div class="slide" id="module3">
+                        <div class="slide-content">
+                            <div class="module-number">Модуль 3</div>
+                            <h3>Адаптивность и публикация</h3>
+                            <ul class="module-list">
+                                <li><i class="fas fa-check"></i> Mobile-first подход</li>
+                                <li><i class="fas fa-check"></i> Медиа-запросы и breakpoints</li>
+                                <li><i class="fas fa-check"></i> Тестирование на разных устройствах</li>
+                                <li><i class="fas fa-check"></i> Публикация на GitHub Pages</li>
+                                <li><i class="fas fa-check"></i> Оптимизация для мобильных</li>
+                            </ul>
+                            <div class="module-duration">
+                                <i class="far fa-clock"></i> Длительность: 1 час 10 минут
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="languages">Любимый язык программирования *</label>
-                    <select id="languages" name="languages[]" multiple required style="width: 100%; padding: 8px; height: 120px;">
-                        <option value="Pascal">Pascal</option>
-                        <option value="C">C</option>
-                        <option value="C++">C++</option>
-                        <option value="JavaScript">JavaScript</option>
-                        <option value="PHP">PHP</option>
-                        <option value="Python">Python</option>
-                        <option value="Java">Java</option>
-                        <option value="Haskell">Haskell</option>
-                        <option value="Clojure">Clojure</option>
-                        <option value="Prolog">Prolog</option>
-                        <option value="Scala">Scala</option>
-                        <option value="Go">Go</option>
-                    </select>
-                    <small>Удерживайте Ctrl для выбора нескольких</small>
+                
+                <button class="slider-prev" aria-label="Предыдущий слайд">‹</button>
+                <button class="slider-next" aria-label="Следующий слайд">›</button>
+                <div class="slider-dots">
+                    <button class="dot active" aria-label="Модуль 1"></button>
+                    <button class="dot" aria-label="Модуль 2"></button>
+                    <button class="dot" aria-label="Модуль 3"></button>
                 </div>
-                <div class="form-group">
-                    <label for="biography">Биография</label>
-                    <textarea id="biography" name="biography" rows="4" placeholder="Расскажите о себе..."></textarea>
+            </div>
+        </div>
+    </section>
+
+    <!-- Преимущества -->
+    <section class="benefits-section" id="benefits">
+        <div class="container">
+            <h2>Что вы получите</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <h3>Практические навыки</h3>
+                    <p>Создадите работающий адаптивный сайт с нуля под руководством эксперта</p>
                 </div>
-                <div class="form-group">
-                    <label>
-                        <input type="checkbox" name="agreed" value="1" required> 
-                        Я ознакомлен с контрактом
-                    </label>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-file-code"></i>
+                    </div>
+                    <h3>Исходные коды</h3>
+                    <p>Получите все материалы мастер-класса: код, презентации, дополнительные ресурсы</p>
                 </div>
-                <button type="submit" class="submit-btn">Отправить</button>
-                <div id="form-message"></div>
-                <p class="form-note">* Поля, отмеченные звездочкой, обязательны для заполнения</p>
-            </form>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3>Поддержка</h3>
+                    <p>Ответы на вопросы во время мастер-класса и доступ в чат участников</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <h3>Сертификат</h3>
+                    <p>Получите сертификат о прохождении мастер-класса</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Форма регистрации -->
+    <section class="form-section" id="registration">
+        <div class="container">
+            <h2>Оставить заявку на участие</h2>
+            <p class="form-intro">Заполните форму ниже, чтобы зарегистрироваться на бесплатный мастер-класс по веб-разработке.</p>
+            
+            <div class="form-container">
+                <div class="form-info">
+                    <h3>Участие в мастер-классе - <span class="free-text">БЕСПЛАТНО</span></h3>
+                    
+                    <div class="included-option">
+                        <div class="option-header">
+                            <h4>Включено в участие:</h4>
+                            <div class="option-price free-badge">0₽</div>
+                        </div>
+                        <ul class="included-features">
+                            <li><i class="fas fa-check"></i> 4 часа практики с экспертом</li>
+                            <li><i class="fas fa-check"></i> Доступ к записи мастер-класса</li>
+                            <li><i class="fas fa-check"></i> Исходные коды всех примеров</li>
+                            <li><i class="fas fa-check"></i> Сертификат о прохождении</li>
+                            <li><i class="fas fa-check"></i> Доступ в чат участников</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="free-advantages">
+                        <h4><i class="fas fa-star"></i> Почему это бесплатно?</h4>
+                        <p>Мы проводим этот мастер-класс для начинающих разработчиков, чтобы помочь им сделать первые шаги в профессии. Это наш вклад в развитие IT-сообщества.</p>
+                    </div>
+                </div>
+                
+                <div class="form-wrapper">
+                    <form id="contact-form">
+                        <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?? bin2hex(random_bytes(32)) ?>">
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="full_name">Имя *</label>
+                                <input type="text" id="full_name" name="full_name" required placeholder="Алексей">
+                            </div>
+                            <div class="form-group">
+                                <label for="surname">Фамилия *</label>
+                                <input type="text" id="surname" name="surname" required placeholder="Петров">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email *</label>
+                            <input type="email" id="email" name="email" required placeholder="alexey@example.com">
+                            <small>На этот email придет ссылка на мастер-класс</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">Телефон *</label>
+                            <input type="tel" id="phone" name="phone" required placeholder="+7 (999) 123-45-67">
+                            <small>Для оперативной связи по организационным вопросам</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="birth_date">Дата рождения *</label>
+                            <input type="date" id="birth_date" name="birth_date" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Пол *</label>
+                            <div style="display: flex; gap: 20px;">
+                                <label><input type="radio" name="gender" value="male" required> Мужской</label>
+                                <label><input type="radio" name="gender" value="female"> Женский</label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="languages">Любимый язык программирования *</label>
+                            <select id="languages" name="languages[]" multiple required style="width: 100%; padding: 8px; height: 120px;">
+                                <option value="Pascal">Pascal</option>
+                                <option value="C">C</option>
+                                <option value="C++">C++</option>
+                                <option value="JavaScript">JavaScript</option>
+                                <option value="PHP">PHP</option>
+                                <option value="Python">Python</option>
+                                <option value="Java">Java</option>
+                                <option value="Haskell">Haskell</option>
+                                <option value="Clojure">Clojure</option>
+                                <option value="Prolog">Prolog</option>
+                                <option value="Scala">Scala</option>
+                                <option value="Go">Go</option>
+                            </select>
+                            <small>Удерживайте Ctrl для выбора нескольких</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="biography">О себе</label>
+                            <textarea id="biography" name="biography" rows="3" placeholder="Расскажите о своём опыте программирования..."></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="question">Ваш вопрос или пожелание (необязательно)</label>
+                            <textarea id="question" name="question" rows="3" placeholder="Что вы хотели бы узнать на мастер-классе?"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="experience">Уровень подготовки</label>
+                            <select id="experience" name="experience">
+                                <option value="">Выберите ваш уровень</option>
+                                <option value="beginner">Начинающий (нет опыта)</option>
+                                <option value="basic">Базовый (немного знаком с HTML/CSS)</option>
+                                <option value="intermediate">Средний (есть опыт верстки)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" name="agreed" value="1" required> 
+                                Я согласен с условиями участия
+                            </label>
+                        </div>
+                        
+                        <button type="submit" class="submit-btn">
+                            <i class="fas fa-user-plus"></i> Подать заявку на участие
+                        </button>
+                        
+                        <div id="form-message"></div>
+                        <p class="form-note">* После подачи заявки вам придет подтверждение на email со ссылкой на мастер-класс</p>
+                    </form>
+                </div>
+            </div>
         </div>
     </section>
 
     <footer class="footer">
         <div class="container">
-            <p>© 2026 Все права защищены</p>
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <a href="#" class="logo">WebMaster</a>
+                    <p>Практические мастер-классы по веб-разработке</p>
+                    <p>10 июня 2026 | Онлайн-формат | Бесплатное участие</p>
+                </div>
+                
+                <div class="footer-contact">
+                    <h4>Контакты</h4>
+                    <p><i class="fas fa-envelope"></i> info@webmaster-class.ru</p>
+                    <p><i class="fas fa-phone"></i> +7 (999) 987-65-43</p>
+                    <p><i class="far fa-clock"></i> Поддержка: Пн-Пт 10:00-19:00</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2026 WebMaster. Все права защищены.</p>
+                <p class="footer-note">Мастер-класс проводится в образовательных целях. Участие бесплатно.</p>
+            </div>
         </div>
     </footer>
 
