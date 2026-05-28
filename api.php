@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 // ПОДКЛЮЧЕНИЕ К БАЗЕ ДАННЫХ
 // ============================================
 $db_user = 'u82669';
-$db_pass = '9085380'; 
+$db_pass = 'ВАШ_ПАРОЛЬ'; // ЗАМЕНИТЕ НА ВАШ РЕАЛЬНЫЙ ПАРОЛЬ
 
 try {
     $db = new PDO('mysql:host=localhost;dbname=u82669', $db_user, $db_pass,
@@ -82,12 +82,14 @@ if ($method == 'POST' && $action == '') {
         
         $db->commit();
         
+        // ВОЗВРАЩАЕМ JSON БЕЗ РЕДИРЕКТА
         echo json_encode([
             'success' => true,
             'login' => $login,
             'password' => $pass,
             'profile_url' => "http://u82669.kubsu-dev.ru/lab8/"
         ]);
+        
     } catch (PDOException $e) {
         $db->rollBack();
         http_response_code(500);
@@ -142,7 +144,9 @@ if ($method == 'PUT' && is_numeric($action)) {
             }
         }
         
+        // ВОЗВРАЩАЕМ JSON БЕЗ РЕДИРЕКТА
         echo json_encode(['success' => true]);
+        
     } catch (PDOException $e) {
         http_response_code(500);
         echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
@@ -176,6 +180,7 @@ if ($method == 'GET' && is_numeric($action)) {
         }
         
         echo json_encode($user ?: []);
+        
     } catch (PDOException $e) {
         http_response_code(500);
         echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
