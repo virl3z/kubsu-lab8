@@ -1,0 +1,199 @@
+<?php
+session_start();
+?>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Проект - Адаптивный сайт</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<!-- Передаём данные авторизации в JavaScript через data-атрибуты -->
+<body data-logged-in="<?= isset($_SESSION['login']) ? 'true' : 'false' ?>" data-user-id="<?= $_SESSION['uid'] ?? '' ?>">
+    <!-- Шапка с видео -->
+    <header class="header">
+        <video autoplay muted loop playsinline class="video-background">
+            <source src="video.mp4" type="video/mp4">
+            Ваш браузер не поддерживает видео.
+        </video>
+        
+        <!-- Навигация -->
+        <nav class="navbar">
+            <div class="container">
+                <div class="nav-wrapper">
+                    <a href="#" class="logo">Логотип</a>
+                    
+                    <ul class="desktop-menu">
+                        <li><a href="#">Главная</a></li>
+                        <li class="has-dropdown">
+                            <a href="#">Услуги ▾</a>
+                            <ul class="dropdown">
+                                <li><a href="#">Веб-разработка</a></li>
+                                <li><a href="#">Дизайн</a></li>
+                                <li><a href="#">Маркетинг</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">О нас</a></li>
+                        <li><a href="#">Портфолио</a></li>
+                        <li><a href="#">Контакты</a></li>
+                    </ul>
+                    
+                    <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Открыть меню">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+                
+                <ul class="mobile-menu" id="mobile-menu">
+                    <li><a href="#">Главная</a></li>
+                    <li class="mobile-dropdown">
+                        <a href="#" class="dropdown-toggle">Услуги ▾</a>
+                        <ul class="mobile-dropdown-menu">
+                            <li><a href="#">Веб-разработка</a></li>
+                            <li><a href="#">Дизайн</a></li>
+                            <li><a href="#">Маркетинг</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">О нас</a></li>
+                    <li><a href="#">Портфолио</a></li>
+                    <li><a href="#">Контакты</a></li>
+                </ul>
+            </div>
+        </nav>
+        
+        <div class="header-content">
+            <h1>Заголовок сайта</h1>
+            <p>Описание сайта или слоган компании</p>
+            <a href="#form" class="btn">Связаться</a>
+        </div>
+    </header>
+
+    <!-- Слайдер -->
+    <section class="slider-section">
+        <div class="container">
+            <h2>Наши работы</h2>
+            <div class="slider">
+                <div class="slider-wrapper">
+                    <div class="slide active">
+                        <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Проект 1">
+                        <div class="slide-text">
+                            <h3>Проект 1</h3>
+                            <p>Описание проекта 1</p>
+                        </div>
+                    </div>
+                    <div class="slide">
+                        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Проект 2">
+                        <div class="slide-text">
+                            <h3>Проект 2</h3>
+                            <p>Описание проекта 2</p>
+                        </div>
+                    </div>
+                    <div class="slide">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Проект 3">
+                        <div class="slide-text">
+                            <h3>Проект 3</h3>
+                            <p>Описание проекта 3</p>
+                        </div>
+                    </div>
+                </div>
+                <button class="slider-prev" aria-label="Предыдущий слайд">‹</button>
+                <button class="slider-next" aria-label="Следующий слайд">›</button>
+                <div class="slider-dots">
+                    <button class="dot active" aria-label="Слайд 1"></button>
+                    <button class="dot" aria-label="Слайд 2"></button>
+                    <button class="dot" aria-label="Слайд 3"></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Форма -->
+    <section class="form-section" id="form">
+        <div class="container">
+            <h2>Свяжитесь с нами</h2>
+            
+            <!-- Статус авторизации -->
+            <?php if (isset($_SESSION['login'])): ?>
+                <div class="auth-status" style="background: #d4edda; padding: 10px; border-radius: 5px; margin-bottom: 20px; text-align: center;">
+                    ✅ Вы вошли как: <strong><?= htmlspecialchars($_SESSION['login']) ?></strong>
+                    <a href="logout.php" style="margin-left: 15px; color: #c0392b;">Выйти</a>
+                </div>
+            <?php else: ?>
+                <div class="auth-status" style="background: #e7f3ff; padding: 10px; border-radius: 5px; margin-bottom: 20px; text-align: center;">
+                    🔐 <a href="login.php">Войти</a> для изменения ранее отправленных данных
+                </div>
+            <?php endif; ?>
+            
+            <form id="contact-form">
+                <div class="form-group">
+                    <label for="full_name">ФИО *</label>
+                    <input type="text" id="full_name" name="full_name" required placeholder="Иванов Иван Иванович">
+                </div>
+                <div class="form-group">
+                    <label for="phone">Телефон *</label>
+                    <input type="tel" id="phone" name="phone" required placeholder="+7 (999) 123-45-67">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" id="email" name="email" required placeholder="example@mail.ru">
+                </div>
+                <div class="form-group">
+                    <label for="birth_date">Дата рождения *</label>
+                    <input type="date" id="birth_date" name="birth_date" required>
+                </div>
+                <div class="form-group">
+                    <label>Пол *</label>
+                    <div style="display: flex; gap: 20px;">
+                        <label><input type="radio" name="gender" value="male" required> Мужской</label>
+                        <label><input type="radio" name="gender" value="female"> Женский</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="languages">Любимый язык программирования *</label>
+                    <select id="languages" name="languages[]" multiple required style="width: 100%; padding: 8px; height: 120px;">
+                        <option value="Pascal">Pascal</option>
+                        <option value="C">C</option>
+                        <option value="C++">C++</option>
+                        <option value="JavaScript">JavaScript</option>
+                        <option value="PHP">PHP</option>
+                        <option value="Python">Python</option>
+                        <option value="Java">Java</option>
+                        <option value="Haskell">Haskell</option>
+                        <option value="Clojure">Clojure</option>
+                        <option value="Prolog">Prolog</option>
+                        <option value="Scala">Scala</option>
+                        <option value="Go">Go</option>
+                    </select>
+                    <small>Удерживайте Ctrl для выбора нескольких</small>
+                </div>
+                <div class="form-group">
+                    <label for="biography">Биография</label>
+                    <textarea id="biography" name="biography" rows="4" placeholder="Расскажите о себе..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" name="agreed" value="1" required> 
+                        Я ознакомлен с контрактом
+                    </label>
+                </div>
+                <button type="submit" class="submit-btn">Отправить</button>
+                <div id="form-message"></div>
+                <p class="form-note">* Поля, отмеченные звездочкой, обязательны для заполнения</p>
+            </form>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>© 2026 Все права защищены</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
