@@ -116,10 +116,10 @@ class APIContactForm {
                 const data = await response.json();
                 
                 if (response.ok && data && data.id) {
-                    // Заполняем форму данными из БД
                     document.getElementById('full_name').value = data.full_name || '';
-                    document.getElementById('phone').value = data.phone || '';
+                    document.getElementById('surname').value = data.surname || '';
                     document.getElementById('email').value = data.email || '';
+                    document.getElementById('phone').value = data.phone || '';
                     document.getElementById('birth_date').value = data.birth_date || '';
                     
                     if (data.gender) {
@@ -140,6 +140,8 @@ class APIContactForm {
                     }
                     
                     document.getElementById('biography').value = data.biography || '';
+                    document.getElementById('question').value = data.question || '';
+                    document.getElementById('experience').value = data.experience || '';
                     
                     if (data.agreed) {
                         const agreedCheckbox = document.querySelector('input[name="agreed"]');
@@ -192,18 +194,19 @@ class APIContactForm {
             if (response.ok) {
                 if (result.login && result.password) {
                     this.showMessage(
-                        `✅ Данные успешно сохранены!<br>
-                         🔑 Ваш логин: <strong>${escapeHtml(result.login)}</strong><br>
-                         🔒 Ваш пароль: <strong>${escapeHtml(result.password)}</strong><br>
-                         ⚠️ Сохраните эти данные для входа!`, 
+                        `✅ Данные успешно сохранены!<br><br>
+                         🔑 <strong>Ваш логин:</strong> ${escapeHtml(result.login)}<br>
+                         🔒 <strong>Ваш пароль:</strong> ${escapeHtml(result.password)}<br><br>
+                         ⚠️ <strong>Сохраните эти данные!</strong> Они понадобятся для входа.<br>
+                         <a href="login.php" style="color: #155724; font-weight: bold;">👉 Перейти к входу</a>`, 
                         'success'
                     );
                     this.form.reset();
-                    // Перезагружаем страницу через 3 секунды
-                    setTimeout(() => location.reload(), 3000);
+                    // ЛОГИН И ПАРОЛЬ БУДУТ ВИДНЫ 60 СЕКУНД, ПОТОМ СТРАНИЦА ПЕРЕЗАГРУЗИТСЯ
+                    setTimeout(() => location.reload(), 60000);
                 } else {
                     this.showMessage('✅ Данные успешно обновлены!', 'success');
-                    setTimeout(() => location.reload(), 1500);
+                    setTimeout(() => location.reload(), 60000);
                 }
             } else {
                 if (result.errors) {
@@ -230,10 +233,12 @@ class APIContactForm {
             this.messageEl.className = type;
             this.messageEl.style.display = 'block';
             
-            // Скрываем сообщение через 8 секунд
-            setTimeout(() => {
-                this.messageEl.style.display = 'none';
-            }, 8000);
+            // Сообщение об ошибке можно убрать через 8 секунд
+            if (type === 'error') {
+                setTimeout(() => {
+                    this.messageEl.style.display = 'none';
+                }, 8000);
+            }
         }
     }
 }
