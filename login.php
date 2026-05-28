@@ -3,7 +3,7 @@ session_start();
 
 // Подключение к БД
 $db_user = 'u82669';
-$db_pass = 'ВАШ_ПАРОЛЬ'; // ЗАМЕНИТЕ НА ВАШ РЕАЛЬНЫЙ ПАРОЛЬ
+$db_pass = '9085380'; 
 
 try {
     $db = new PDO('mysql:host=localhost;dbname=u82669', $db_user, $db_pass,
